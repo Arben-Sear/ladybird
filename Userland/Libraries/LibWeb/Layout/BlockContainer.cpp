@@ -6,17 +6,26 @@
 
 #include <LibWeb/Layout/BlockContainer.h>
 #include <LibWeb/Painting/PaintableBox.h>
+#include <LibWeb/HTML/HTMLInputElement.h>
 
 namespace Web::Layout {
 
 BlockContainer::BlockContainer(DOM::Document& document, DOM::Node* node, NonnullRefPtr<CSS::StyleProperties> style)
     : Box(document, node, move(style))
 {
+    if (dom_node() && dom_node()->is_html_input_element()) {
+        set_natural_width(CSS::Length(static_cast<HTML::HTMLInputElement*>(dom_node())->size(), CSS::Length::Type::Ch).to_px(*this));
+        set_natural_height(CSS::Length(1, CSS::Length::Type::Lh).to_px(*this));
+    }
 }
 
 BlockContainer::BlockContainer(DOM::Document& document, DOM::Node* node, NonnullOwnPtr<CSS::ComputedValues> computed_values)
     : Box(document, node, move(computed_values))
 {
+    if (dom_node() && dom_node()->is_html_input_element()) {
+        set_natural_width(CSS::Length(static_cast<HTML::HTMLInputElement*>(dom_node())->size(), CSS::Length::Type::Ch).to_px(*this));
+        set_natural_height(CSS::Length(1, CSS::Length::Type::Lh).to_px(*this));
+    }
 }
 
 BlockContainer::~BlockContainer() = default;
