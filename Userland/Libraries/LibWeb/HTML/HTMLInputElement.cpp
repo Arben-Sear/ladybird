@@ -125,10 +125,10 @@ void HTMLInputElement::adjust_computed_style(CSS::StyleProperties& style)
         style.set_property(CSS::PropertyID::Display, CSS::DisplayStyleValue::create(CSS::Display::from_short(CSS::Display::Short::InlineBlock)));
 
     // TODO: Remove the following four lines
-    if (type_state() != TypeAttributeState::FileUpload) {
-        if (style.property(CSS::PropertyID::Width)->has_auto())
-            style.set_property(CSS::PropertyID::Width, CSS::LengthStyleValue::create(CSS::Length(size(), CSS::Length::Type::Ch)));
-    }
+    // if (type_state() != TypeAttributeState::FileUpload) {
+    //     if (style.property(CSS::PropertyID::Width)->has_auto())
+    //         style.set_property(CSS::PropertyID::Width, CSS::LengthStyleValue::create(CSS::Length(size(), CSS::Length::Type::Ch)));
+    // }
 
     // NOTE: The following line-height check is done for web compatability and usability reasons.
     // FIXME: The "normal" line-height value should be calculated but assume 1.0 for now.
@@ -800,7 +800,6 @@ void HTMLInputElement::create_text_input_shadow_tree()
         align-items: center;
         white-space: pre;
         border: none;
-        padding: 1px 2px;
     )~~~"_string));
     MUST(shadow_root->append_child(element));
 

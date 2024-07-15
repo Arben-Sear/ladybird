@@ -5,6 +5,7 @@
  */
 
 #include <LibWeb/Dump.h>
+#include <LibWeb/HTML/HTMLInputElement.h>
 #include <LibWeb/Layout/BlockFormattingContext.h>
 #include <LibWeb/Layout/Box.h>
 #include <LibWeb/Layout/FlexFormattingContext.h>
@@ -1993,8 +1994,14 @@ CSSPixelRect FormattingContext::margin_box_rect_in_ancestor_coordinate_space(Box
 bool box_is_sized_as_replaced_element(Box const& box)
 {
     //TODO: Uncomment out these two lines of code (we added them).
-    // if (box.dom_node() && box.dom_node()->is_html_input_element())
-    //     return true;
+    if (box.dom_node() && box.dom_node()->is_html_input_element()) {
+        const HTML::HTMLInputElement& element = static_cast<const HTML::HTMLInputElement&>(*box.dom_node());
+        using enum Web::HTML::HTMLInputElement::TypeAttributeState;
+        if (element.type_state() != FileUpload)
+            return true;
+        // else
+        //     dbgln("HEY, WE FOUND AND SKIPPED A FILE INPUT IN box_si_sized_as_replaced_element()!");
+    }
 
     // When a box has a preferred aspect ratio, its automatic sizes are calculated the same as for a
     // replaced element with a natural aspect ratio and no natural size in that axis, see e.g. CSS2 §10
