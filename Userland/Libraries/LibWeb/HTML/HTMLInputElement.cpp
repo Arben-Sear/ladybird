@@ -124,6 +124,7 @@ void HTMLInputElement::adjust_computed_style(CSS::StyleProperties& style)
     if (style.display().is_inline_outside() && style.display().is_flow_inside())
         style.set_property(CSS::PropertyID::Display, CSS::DisplayStyleValue::create(CSS::Display::from_short(CSS::Display::Short::InlineBlock)));
 
+    // TODO: Remove the following four lines
     if (type_state() != TypeAttributeState::FileUpload) {
         if (style.property(CSS::PropertyID::Width)->has_auto())
             style.set_property(CSS::PropertyID::Width, CSS::LengthStyleValue::create(CSS::Length(size(), CSS::Length::Type::Ch)));
@@ -792,6 +793,7 @@ void HTMLInputElement::create_text_input_shadow_tree()
 
     auto initial_value = m_value;
     auto element = MUST(DOM::create_element(document(), HTML::TagNames::div, Namespace::HTML));
+    //TODO: remove the "padding: 1px 2px;" line from the below method call
     MUST(element->set_attribute(HTML::AttributeNames::style, R"~~~(
         display: flex;
         height: 100%;
