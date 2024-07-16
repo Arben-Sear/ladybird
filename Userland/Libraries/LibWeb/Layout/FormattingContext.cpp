@@ -1993,14 +1993,18 @@ CSSPixelRect FormattingContext::margin_box_rect_in_ancestor_coordinate_space(Box
 
 bool box_is_sized_as_replaced_element(Box const& box)
 {
-    //TODO: Uncomment out these two lines of code (we added them).
     if (box.dom_node() && box.dom_node()->is_html_input_element()) {
         const HTML::HTMLInputElement& element = static_cast<const HTML::HTMLInputElement&>(*box.dom_node());
         using enum Web::HTML::HTMLInputElement::TypeAttributeState;
-        if (element.type_state() != FileUpload)
+        if (element.type_state() != FileUpload &&
+            element.type_state() != Hidden &&
+            element.type_state() != SubmitButton &&
+            element.type_state() != Button &&
+            element.type_state() != ResetButton &&
+            element.type_state() != ImageButton &&
+            element.type_state() != Checkbox &&
+            element.type_state() != RadioButton)
             return true;
-        // else
-        //     dbgln("HEY, WE FOUND AND SKIPPED A FILE INPUT IN box_si_sized_as_replaced_element()!");
     }
 
     // When a box has a preferred aspect ratio, its automatic sizes are calculated the same as for a
